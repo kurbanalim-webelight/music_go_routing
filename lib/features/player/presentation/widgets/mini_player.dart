@@ -35,7 +35,7 @@ class MiniPlayer extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => const PlayerRoute().push<void>(context),
+            onTap: () => PlayerRoute(trackId: track.id).push<void>(context),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 8, 6, 8),
               child: Row(

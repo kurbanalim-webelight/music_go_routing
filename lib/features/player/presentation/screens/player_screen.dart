@@ -3,14 +3,51 @@ import 'package:go_router/go_router.dart';
 import 'package:music_go_routing/app/di.dart';
 import 'package:music_go_routing/app/router/app_router.dart';
 import 'package:music_go_routing/app/theme.dart';
-import 'package:music_go_routing/app/widgets/empty_state.dart';
 import 'package:music_go_routing/features/catalog/domain/entities/track.dart';
 import 'package:music_go_routing/features/catalog/presentation/widgets/cover_art.dart';
 
-class PlayerScreen extends StatelessWidget {
-  const PlayerScreen({super.key});
+class PlayerScreen extends StatefulWidget {
+  const PlayerScreen({required this.trackId, super.key});
 
-  // /player can be opened by URL with nothing underneath: fall back to Home.
+  final String trackId;
+
+  @override
+  State<PlayerScreen> createState() => _PlayerScreenState();
+}
+
+class _PlayerScreenState extends State<PlayerScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _playRequestedTrack());
+  }
+
+  void _playRequestedTrack() {
+    final track = catalogRepository.track(widget.trackId);
+    if (track == null) {
+      _closeWithTrackNotFound();
+      return;
+    }
+
+    if (playerController.current?.id == track.id) {
+      return;
+    }
+
+    final album = catalogRepository.album(track.albumId)!;
+    final albumTracks = catalogRepository.tracksOf(album.trackIds);
+    playerController.play(albumTracks, startAt: albumTracks.indexOf(track));
+  }
+
+  void _closeWithTrackNotFound() {
+    if (!mounted) {
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Track not found')));
+    _close(context);
+  }
+
+  // The player can be opened by URL with nothing underneath: fall back to Home.
   void _close(BuildContext context) => context.canPop() ? context.pop() : const HomeRoute().go(context);
 
   @override
@@ -19,16 +56,7 @@ class PlayerScreen extends StatelessWidget {
     builder: (context, _) {
       final track = playerController.current;
       if (track == null) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(onPressed: () => _close(context), icon: const Icon(Icons.keyboard_arrow_down_rounded)),
-          ),
-          body: const EmptyState(
-            icon: Icons.music_off_rounded,
-            title: 'Nothing playing',
-            message: 'Pick an album and press Play.',
-          ),
-        );
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
       }
       final album = catalogRepository.album(track.albumId)!;
       final artist = catalogRepository.artist(album.artistId)!;

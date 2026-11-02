@@ -8,11 +8,11 @@ class NavigationHandler {
 
   final GoRouter _router;
 
-  final Set<String> _independentRoutes = {const PlayerRoute().location};
+  final Set<String> _independentRoutes = {'/player/:trackId'};
 
   void open(String location) {
-    final uri = Uri.tryParse(location);
-    if (uri == null || !_canOpen(uri)) {
+    final match = _findOpenableMatch(location);
+    if (match == null) {
       return;
     }
 
@@ -21,7 +21,7 @@ class NavigationHandler {
       return;
     }
 
-    if (_independentRoutes.contains(uri.path)) {
+    if (_independentRoutes.contains(match.fullPath)) {
       _router.push<void>(location);
     } else {
       _router.go(location);
@@ -30,21 +30,16 @@ class NavigationHandler {
 
   Future<void> enterShell({String? from}) async {
     final homeLocation = const HomeRoute().location;
-    final uri = from == null ? null : Uri.tryParse(from);
+    final match = from == null ? null : _findOpenableMatch(from);
 
-    if (uri == null) {
+    if (match == null) {
       _router.go(homeLocation);
       return;
     }
 
-    if (!_canOpen(uri)) {
-      _router.go(homeLocation);
-      return;
-    }
+    final location = match.uri.toString();
 
-    final location = uri.toString();
-
-    if (_independentRoutes.contains(uri.path)) {
+    if (_independentRoutes.contains(match.fullPath)) {
       _router.go(homeLocation);
       await WidgetsBinding.instance.endOfFrame;
       _router.push<void>(location);
@@ -54,9 +49,18 @@ class NavigationHandler {
     _router.go(location);
   }
 
-  bool _canOpen(Uri uri) {
-    final isKnownRoute = !_router.configuration.findMatch(uri).isError;
+  RouteMatchList? _findOpenableMatch(String location) {
+    final uri = Uri.tryParse(location);
+    if (uri == null) {
+      return null;
+    }
+
+    final match = _router.configuration.findMatch(uri);
     final isAuthRoute = uri.path.startsWith(const LoginRoute().location);
-    return isKnownRoute && !isAuthRoute;
+    if (match.isError || isAuthRoute) {
+      return null;
+    }
+
+    return match;
   }
 }
