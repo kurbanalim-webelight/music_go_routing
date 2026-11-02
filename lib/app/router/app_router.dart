@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:music_go_routing/app/di.dart';
 import 'package:music_go_routing/app/router/app_pages.dart';
+import 'package:music_go_routing/app/widgets/not_found_screen.dart';
 import 'package:music_go_routing/features/shell/presentation/widgets/branch_container.dart';
 import 'package:music_go_routing/features/shell/presentation/screens/app_shell.dart';
 import 'package:music_go_routing/features/auth/presentation/screens/login_screen.dart';
@@ -43,6 +44,7 @@ GoRouter createRouter() {
     initialLocation: const SplashRoute().location,
     routes: $appRoutes,
     redirect: authGuard,
+    errorBuilder: (context, state) => NotFoundScreen(onGoHome: () => const HomeRoute().go(context)),
     debugLogDiagnostics: kDebugMode,
   );
 }

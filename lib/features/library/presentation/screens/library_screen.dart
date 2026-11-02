@@ -35,7 +35,16 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
   @override
   void didUpdateWidget(LibraryScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.tab.index != _tabs.index) _tabs.animateTo(widget.tab.index);
+    // The tab can change while this page is hidden behind another one (e.g. a link from
+    // notifications); its TabBar has no size until it is shown, so switch after the next frame.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _showTabFromUrl());
+  }
+
+  void _showTabFromUrl() {
+    if (!mounted || _tabs.index == widget.tab.index) {
+      return;
+    }
+    _tabs.animateTo(widget.tab.index);
   }
 
   @override

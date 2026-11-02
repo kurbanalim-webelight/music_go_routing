@@ -2,7 +2,10 @@ part of '../../app_router.dart';
 
 const libraryBranch = TypedStatefulShellBranch<LibraryBranch>(
   routes: [
-    TypedGoRoute<LibraryRoute>(path: '/library/:tab', routes: [albumRoute, artistRoute, notificationsRoute]),
+    TypedGoRoute<LibraryRoute>(
+      path: '/library/:tab(watchlist|favourite)',
+      routes: [albumRoute, artistRoute, notificationsRoute],
+    ),
     TypedGoRoute<LibraryRootRoute>(path: '/library'),
   ],
 );
