@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:music_go_routing/app/shell/floating_nav_bar.dart';
+import 'package:music_go_routing/features/shell/presentation/widgets/floating_nav_bar.dart';
 import 'package:music_go_routing/features/player/presentation/widgets/mini_player.dart';
 
 // Chrome shared by every tab: the branch navigators fill the screen and scroll underneath the

@@ -3,12 +3,14 @@ import 'package:music_go_routing/app/di.dart';
 
 // Opened on the root navigator: no bottom bar, no mini player.
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({super.key});
+  const AccountScreen({required this.onSignedOut, super.key});
+
+  final VoidCallback onSignedOut;
 
   void _signOut() {
     playerController.stop();
-    // The router listens to authController and redirects to /login.
     authController.signOut();
+    onSignedOut();
   }
 
   @override

@@ -13,7 +13,7 @@ class NotificationsButton extends StatelessWidget {
       final unread = notificationsController.unreadCount;
       return IconButton(
         tooltip: 'Notifications',
-        onPressed: () => NotificationsRoute.of(context).push<void>(context),
+        onPressed: () => const NotificationsRoute().goRelative(context),
         icon: Badge(
           isLabelVisible: unread > 0,
           label: Text('$unread'),

@@ -22,9 +22,9 @@ class NotificationsController extends ChangeNotifier {
     ),
     AppNotification(
       id: 'n2',
-      title: 'Late shift was updated',
-      body: 'Four songs, ready for the night bus.',
-      location: '/library/playlist/p1',
+      title: 'Night Bus is on your watchlist',
+      body: 'Ready when you are.',
+      location: '/library/watchlist/album/al1',
     ),
     AppNotification(
       id: 'n3',

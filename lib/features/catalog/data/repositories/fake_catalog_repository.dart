@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:music_go_routing/features/catalog/domain/entities/album.dart';
 import 'package:music_go_routing/features/catalog/domain/entities/artist.dart';
-import 'package:music_go_routing/features/catalog/domain/entities/playlist.dart';
 import 'package:music_go_routing/features/catalog/domain/entities/track.dart';
 import 'package:music_go_routing/features/catalog/domain/repositories/catalog_repository.dart';
 
@@ -107,20 +106,10 @@ class FakeCatalogRepository implements CatalogRepository {
   ];
 
   @override
-  final List<Playlist> playlists = const [
-    Playlist(id: 'p1', name: 'Late shift', trackIds: ['t1', 't4', 't12', 't18']),
-    Playlist(id: 'p2', name: 'Sunday kitchen', trackIds: ['t19', 't20', 't8', 't5']),
-    Playlist(id: 'p3', name: 'Long drive', trackIds: ['t10', 't2', 't13', 't16', 't6']),
-  ];
-
-  @override
   Album? album(String id) => albums.where((a) => a.id == id).firstOrNull;
 
   @override
   Artist? artist(String id) => artists.where((a) => a.id == id).firstOrNull;
-
-  @override
-  Playlist? playlist(String id) => playlists.where((p) => p.id == id).firstOrNull;
 
   @override
   Track? track(String id) => _tracks.where((t) => t.id == id).firstOrNull;

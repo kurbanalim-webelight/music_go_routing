@@ -1,7 +1,4 @@
-import 'package:flutter/foundation.dart';
-
-// In-memory session. The router listens to it (refreshListenable) and redirects on every change.
-class AuthController extends ChangeNotifier {
+class AuthController {
   AuthController();
 
   String? _email;
@@ -13,13 +10,19 @@ class AuthController extends ChangeNotifier {
 
   void signIn({required String email, String? name}) {
     _email = email.trim();
-    _name = (name == null || name.trim().isEmpty) ? _email!.split('@').first : name.trim();
-    notifyListeners();
+    _name = _displayName(email: _email!, name: name);
   }
 
   void signOut() {
     _email = null;
     _name = null;
-    notifyListeners();
+  }
+
+  String _displayName({required String email, String? name}) {
+    final trimmedName = name?.trim() ?? '';
+    if (trimmedName.isNotEmpty) {
+      return trimmedName;
+    }
+    return email.split('@').first;
   }
 }

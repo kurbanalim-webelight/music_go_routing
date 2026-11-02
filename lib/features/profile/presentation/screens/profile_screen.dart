@@ -48,10 +48,13 @@ class ProfileScreen extends StatelessWidget {
               trailing: Text('${favouritesController.albumIds.length}', style: theme.textTheme.titleMedium),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.queue_music_rounded),
-            title: const Text('Your playlists'),
-            trailing: Text('${catalogRepository.playlists.length}', style: theme.textTheme.titleMedium),
+          ListenableBuilder(
+            listenable: watchlistController,
+            builder: (context, _) => ListTile(
+              leading: const Icon(Icons.bookmark_border_rounded),
+              title: const Text('Watchlist'),
+              trailing: Text('${watchlistController.albumIds.length}', style: theme.textTheme.titleMedium),
+            ),
           ),
           const Divider(indent: 20, endIndent: 20, height: 24),
           ListTile(

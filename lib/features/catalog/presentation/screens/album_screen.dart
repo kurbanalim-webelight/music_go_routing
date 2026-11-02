@@ -34,6 +34,18 @@ class AlbumScreen extends StatelessWidget {
       appBar: AppBar(
         actions: [
           ListenableBuilder(
+            listenable: watchlistController,
+            builder: (context, _) {
+              final saved = watchlistController.contains(album.id);
+              return IconButton(
+                tooltip: saved ? 'Remove from watchlist' : 'Add to watchlist',
+                onPressed: () => watchlistController.toggle(album.id),
+                icon: Icon(saved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded),
+                color: saved ? theme.colorScheme.primary : null,
+              );
+            },
+          ),
+          ListenableBuilder(
             listenable: favouritesController,
             builder: (context, _) {
               final liked = favouritesController.contains(album.id);

@@ -26,7 +26,7 @@ class PlayerScreen extends StatelessWidget {
           body: const EmptyState(
             icon: Icons.music_off_rounded,
             title: 'Nothing playing',
-            message: 'Pick an album or playlist and press Play.',
+            message: 'Pick an album and press Play.',
           ),
         );
       }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-class FavouritesController extends ChangeNotifier {
-  FavouritesController();
+class AlbumCollectionController extends ChangeNotifier {
+  AlbumCollectionController();
 
   final Set<String> _albumIds = {};
 
