@@ -14,9 +14,9 @@ class TrackTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ListenableBuilder(
-      listenable: playerController,
+      listenable: musicController,
       builder: (context, _) {
-        final isCurrent = playerController.current?.id == track.id;
+        final isCurrent = musicController.currentTrack?.id == track.id;
         return ListTile(
           onTap: onTap,
           leading: SizedBox(

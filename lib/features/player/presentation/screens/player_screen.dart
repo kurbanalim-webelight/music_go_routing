@@ -23,19 +23,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
   }
 
   void _playRequestedTrack() {
-    final track = catalogRepository.track(widget.trackId);
-    if (track == null) {
+    final isTrackFound = musicController.playTrack(widget.trackId);
+    if (!isTrackFound) {
       _closeWithTrackNotFound();
-      return;
     }
-
-    if (playerController.current?.id == track.id) {
-      return;
-    }
-
-    final album = catalogRepository.album(track.albumId)!;
-    final albumTracks = catalogRepository.tracksOf(album.trackIds);
-    playerController.play(albumTracks, startAt: albumTracks.indexOf(track));
   }
 
   void _closeWithTrackNotFound() {
@@ -52,14 +43,14 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: playerController,
+    listenable: musicController,
     builder: (context, _) {
-      final track = playerController.current;
-      if (track == null) {
+      final track = musicController.currentTrack;
+      final album = musicController.currentAlbum;
+      final artist = musicController.currentArtist;
+      if (track == null || album == null || artist == null) {
         return const Scaffold(body: Center(child: CircularProgressIndicator()));
       }
-      final album = catalogRepository.album(track.albumId)!;
-      final artist = catalogRepository.artist(album.artistId)!;
       final theme = Theme.of(context);
       return GestureDetector(
         // Swipe down to close, like the slide-up it opened with.
@@ -164,7 +155,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         inactiveTrackColor: Colors.white24,
                         thumbColor: AppColors.paper,
                       ),
-                      child: Slider(value: playerController.progress, onChanged: playerController.seek),
+                      child: Slider(value: musicController.progress, onChanged: musicController.seek),
                     ),
                     const SizedBox(height: 8),
                     DefaultTextStyle.merge(
@@ -172,7 +163,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(formatDuration(playerController.position)),
+                          Text(formatDuration(musicController.position)),
                           Text(formatDuration(track.duration)),
                         ],
                       ),
@@ -183,25 +174,25 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       children: [
                         IconButton(
                           tooltip: 'Previous',
-                          onPressed: playerController.previous,
+                          onPressed: musicController.previous,
                           icon: const Icon(Icons.skip_previous_rounded, size: 40),
                         ),
                         IconButton.filled(
-                          tooltip: playerController.isPlaying ? 'Pause' : 'Play',
-                          onPressed: playerController.toggle,
+                          tooltip: musicController.isPlaying ? 'Pause' : 'Play',
+                          onPressed: musicController.toggle,
                           style: IconButton.styleFrom(
                             backgroundColor: AppColors.paper,
                             foregroundColor: AppColors.ink,
                             fixedSize: const Size(72, 72),
                           ),
                           icon: Icon(
-                            playerController.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                            musicController.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
                             size: 40,
                           ),
                         ),
                         IconButton(
                           tooltip: 'Next',
-                          onPressed: playerController.hasNext ? playerController.next : null,
+                          onPressed: musicController.hasNext ? musicController.next : null,
                           icon: const Icon(Icons.skip_next_rounded, size: 40),
                         ),
                       ],

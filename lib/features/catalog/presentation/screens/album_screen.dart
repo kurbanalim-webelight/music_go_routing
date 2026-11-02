@@ -95,7 +95,7 @@ class AlbumScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
             child: FilledButton.icon(
-              onPressed: () => playerController.play(tracks),
+              onPressed: () => musicController.playTracks(tracks),
               icon: const Icon(Icons.play_arrow_rounded),
               label: const Text('Play'),
             ),
@@ -104,7 +104,7 @@ class AlbumScreen extends StatelessWidget {
             TrackTile(
               track: track,
               leading: Text('${i + 1}', style: TextStyle(color: theme.colorScheme.onSurfaceVariant)),
-              onTap: () => playerController.play(tracks, startAt: i),
+              onTap: () => musicController.playTracks(tracks, startAt: i),
             ),
         ],
       ),

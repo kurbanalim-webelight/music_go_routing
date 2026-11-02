@@ -12,7 +12,7 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: playerController,
+    listenable: musicController,
     // Grows in when playback starts and collapses on close.
     builder: (context, _) => AnimatedSize(
       duration: (MediaQuery.maybeDisableAnimationsOf(context) ?? false)
@@ -25,10 +25,12 @@ class MiniPlayer extends StatelessWidget {
   );
 
   Widget _content(BuildContext context) {
-    final track = playerController.current;
-    if (track == null) return const SizedBox(width: double.infinity);
-    final album = catalogRepository.album(track.albumId)!;
-    final artist = catalogRepository.artist(album.artistId)!;
+    final track = musicController.currentTrack;
+    final album = musicController.currentAlbum;
+    final artist = musicController.currentArtist;
+    if (track == null || album == null || artist == null) {
+      return const SizedBox(width: double.infinity);
+    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: GlassPill(
@@ -67,7 +69,7 @@ class MiniPlayer extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(2),
                           child: LinearProgressIndicator(
-                            value: playerController.progress,
+                            value: musicController.progress,
                             minHeight: 3,
                             backgroundColor: Colors.white12,
                             color: AppColors.marigold,
@@ -78,13 +80,13 @@ class MiniPlayer extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   IconButton(
-                    tooltip: playerController.isPlaying ? 'Pause' : 'Play',
-                    onPressed: playerController.toggle,
-                    icon: Icon(playerController.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded, size: 34),
+                    tooltip: musicController.isPlaying ? 'Pause' : 'Play',
+                    onPressed: musicController.toggle,
+                    icon: Icon(musicController.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded, size: 34),
                   ),
                   IconButton(
                     tooltip: 'Close player',
-                    onPressed: playerController.stop,
+                    onPressed: musicController.stop,
                     icon: const Icon(Icons.close_rounded, size: 26),
                   ),
                 ],

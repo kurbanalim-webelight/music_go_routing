@@ -8,7 +8,7 @@ class AccountScreen extends StatelessWidget {
   final VoidCallback onSignedOut;
 
   void _signOut() {
-    playerController.stop();
+    musicController.stop();
     authController.signOut();
     onSignedOut();
   }
