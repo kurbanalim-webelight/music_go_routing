@@ -16,6 +16,7 @@ import 'package:music_go_routing/features/player/presentation/screens/player_scr
 import 'package:music_go_routing/features/profile/presentation/screens/account_screen.dart';
 import 'package:music_go_routing/features/profile/presentation/screens/profile_screen.dart';
 import 'package:music_go_routing/features/profile/presentation/screens/settings_screen.dart';
+import 'package:music_go_routing/features/splash/presentation/screens/splash_screen.dart';
 
 part 'app_router.g.dart';
 part 'guards/auth_guard.dart';
@@ -30,15 +31,16 @@ part 'routes/profile/account_routes.dart';
 part 'routes/profile/profile_routes.dart';
 part 'routes/profile/settings_routes.dart';
 part 'routes/shell/app_shell_routes.dart';
+part 'routes/splash/splash_routes.dart';
 
 // The one key handed to GoRouter(navigatorKey:). Routes that set $parentNavigatorKey to it
 // open above the shell, so they cover the bottom bar and the mini player.
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
-GoRouter createRouter({String? initialLocation}) {
+GoRouter createRouter() {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: initialLocation ?? const HomeRoute().location,
+    initialLocation: const SplashRoute().location,
     routes: $appRoutes,
     redirect: authGuard,
     debugLogDiagnostics: kDebugMode,

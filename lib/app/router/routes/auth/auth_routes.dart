@@ -14,7 +14,7 @@ class LoginRoute extends GoRouteData with $LoginRoute {
   Page<void> buildPage(BuildContext context, GoRouterState state) => AppPages.fade(
     state,
     LoginScreen(
-      onSignedIn: () => context.go(from ?? const HomeRoute().location),
+      onSignedIn: () => navigationHandler.enterShell(from: from),
       onOpenSignup: () => SignupRoute(from: from).push<void>(context),
     ),
   );
@@ -27,5 +27,5 @@ class SignupRoute extends GoRouteData with $SignupRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      SignupScreen(onSignedIn: () => context.go(from ?? const HomeRoute().location));
+      SignupScreen(onSignedIn: () => navigationHandler.enterShell(from: from));
 }

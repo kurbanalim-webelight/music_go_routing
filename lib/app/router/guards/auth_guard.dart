@@ -1,6 +1,11 @@
 part of '../app_router.dart';
 
 String? authGuard(BuildContext context, GoRouterState state) {
+  final isOnSplash = state.matchedLocation == const SplashRoute().location;
+  if (isOnSplash) {
+    return null;
+  }
+
   final isOnAuthScreen = state.matchedLocation.startsWith(const LoginRoute().location);
 
   if (!authController.isSignedIn) {
