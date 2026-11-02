@@ -12,5 +12,7 @@ class SplashController {
   }
 
   // Startup work goes here: restore the session, load remote config, warm caches.
-  Future<void> _runStartupTasks() async {}
+  Future<void> _runStartupTasks() async {
+    await authController.restoreSession();
+  }
 }

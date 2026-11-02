@@ -12,6 +12,7 @@ import 'package:music_go_routing/features/catalog/presentation/screens/album_scr
 import 'package:music_go_routing/features/catalog/presentation/screens/artist_screen.dart';
 import 'package:music_go_routing/features/home/presentation/screens/home_screen.dart';
 import 'package:music_go_routing/features/library/presentation/screens/library_screen.dart';
+import 'package:music_go_routing/features/notification_tester/presentation/screens/notification_tester_screen.dart';
 import 'package:music_go_routing/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:music_go_routing/features/player/presentation/screens/player_screen.dart';
 import 'package:music_go_routing/features/profile/presentation/screens/account_screen.dart';
@@ -26,6 +27,7 @@ part 'routes/catalog/album_routes.dart';
 part 'routes/catalog/artist_routes.dart';
 part 'routes/home/home_routes.dart';
 part 'routes/library/library_routes.dart';
+part 'routes/notification_tester/notification_tester_routes.dart';
 part 'routes/notifications/notifications_routes.dart';
 part 'routes/player/player_routes.dart';
 part 'routes/profile/account_routes.dart';
