@@ -8,8 +8,6 @@ class NavigationHandler {
 
   final GoRouter _router;
 
-  final Set<String> _independentRoutes = {'/player/:trackId'};
-
   void open(String location) {
     final match = _findOpenableMatch(location);
     if (match == null) {
@@ -21,7 +19,7 @@ class NavigationHandler {
       return;
     }
 
-    if (_independentRoutes.contains(match.fullPath)) {
+    if (_isOutsideShell(match)) {
       _router.push<void>(location);
     } else {
       _router.go(location);
@@ -39,7 +37,7 @@ class NavigationHandler {
 
     final location = match.uri.toString();
 
-    if (_independentRoutes.contains(match.fullPath)) {
+    if (_isOutsideShell(match)) {
       _router.go(homeLocation);
       await WidgetsBinding.instance.endOfFrame;
       _router.push<void>(location);
@@ -47,6 +45,10 @@ class NavigationHandler {
     }
 
     _router.go(location);
+  }
+
+  bool _isOutsideShell(RouteMatchList match) {
+    return !match.matches.any((routeMatch) => routeMatch is ShellRouteMatch);
   }
 
   RouteMatchList? _findOpenableMatch(String location) {
