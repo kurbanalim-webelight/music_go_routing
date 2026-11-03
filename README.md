@@ -104,11 +104,11 @@ Shell (StatefulShellRoute: bottom bar + mini player, one Navigator per tab)
 │   ├── artist/:artistId
 │   │   └── album/:albumId
 │   └── notifications
-└── /profile
-    ├── settings
-    │   ├── account                              root navigator: covers the bottom bar
-    │   └── notification-tester
-    └── notifications
+├── /profile
+│   ├── settings
+│   │   └── account                              root navigator: covers the bottom bar
+│   └── notifications
+└── /tester                                      notification + deep link tester tab
 ```
 
 Every route above that is not on the root navigator opens inside its tab: the bottom bar and the
@@ -253,14 +253,18 @@ taps, and `AppController` should listen to it. No routing code changes.
 
 ## Testing links and notifications
 
-### Notification tester
+### Tester tab
 
-**Profile → Settings → Notification tester** (`/profile/settings/notification-tester`):
+The **Tester** tab in the bottom bar (`/tester`) lets anyone test routing from a build:
 
-1. Pick a screen. Every route is listed, plus "Unknown route".
-2. Pick its parameters: Library tab, artist, album, track. Each list ends with an "Unknown …" option.
-3. Check the preview: the exact location, and what should happen.
-4. Tap **Send in 3 seconds**. Stay in the app, or close it to test a cold start.
+1. **Choose a screen.** Every route is shown as a chip, grouped by tab, plus "Unknown route".
+2. **Choose details:** Library tab, artist, album, track. Each list ends with an "Unknown" option for the error case.
+3. **Check what should happen.** The card shows the expected result. Error cases are tinted red.
+4. **Test with a notification.** Pick a delay (3 s, 5 s, 10 s or 1 min). The hint says what to do while you wait
+   (stay in the app, go to the home screen, or swipe the app away), then tap the notification.
+5. **Or test with a deep link.** Copy the `musicgo://share/...` link, or tap **Open link** to open it through the OS.
+   To test a closed app on iPhone, paste the link into Safari's address bar. "Commands for a computer" has
+   ready-to-copy `xcrun simctl` and `adb` commands.
 
 ### Deep links on the iOS Simulator
 
@@ -315,7 +319,7 @@ App-wide instances are created once in `lib/app/di.dart`. Controllers are plain 
 3. If it should open on top of the current screen from a link or notification, add its path
    pattern to `NavigationHandler._independentRoutes`.
 4. Add the `part` line to `app_router.dart` and run `build_runner`.
-5. Add it to `notificationRouteOptions` so it can be tested from the Notification tester.
+5. Add it to `testRouteGroups` in `test_route.dart` so it shows up in the Tester tab.
 
 Deep links and notifications then reach the new screen with no further code.
 

@@ -1,7 +1,7 @@
 part of '../../app_router.dart';
 
 // Bottom bar. Branch order = tab index, keep in sync with AppShell's destinations.
-@TypedStatefulShellRoute<AppShellRoute>(branches: [homeBranch, libraryBranch, profileBranch])
+@TypedStatefulShellRoute<AppShellRoute>(branches: [homeBranch, libraryBranch, profileBranch, testerBranch])
 class AppShellRoute extends StatefulShellRouteData {
   const AppShellRoute();
 

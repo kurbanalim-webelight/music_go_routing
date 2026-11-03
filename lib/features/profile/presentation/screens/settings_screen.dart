@@ -1,10 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({required this.onOpenAccount, required this.onOpenNotificationTester, super.key});
+  const SettingsScreen({required this.onOpenAccount, super.key});
 
   final VoidCallback onOpenAccount;
-  final VoidCallback onOpenNotificationTester;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -39,13 +38,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: const Text('Allow explicit songs'),
           value: _explicit,
           onChanged: (v) => setState(() => _explicit = v),
-        ),
-        ListTile(
-          leading: const Icon(Icons.notifications_active_outlined),
-          title: const Text('Notification tester'),
-          subtitle: const Text('Send a notification to any screen'),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: widget.onOpenNotificationTester,
         ),
         const AboutListTile(
           icon: Icon(Icons.info_outline_rounded),

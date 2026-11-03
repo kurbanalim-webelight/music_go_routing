@@ -6,6 +6,9 @@ class DeepLinkService {
   static const String _scheme = 'musicgo';
   static const String _host = 'share';
 
+  // The shareable link for an app location, e.g. /home/album/al1 -> musicgo://share/home/album/al1.
+  static String linkFor(String location) => '$_scheme://$_host$location';
+
   final AppLinks _appLinks = AppLinks();
 
   Uri? _initialLink;

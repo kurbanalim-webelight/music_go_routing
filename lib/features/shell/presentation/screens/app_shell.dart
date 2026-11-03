@@ -16,6 +16,7 @@ class AppShell extends StatelessWidget {
     FloatingNavItem(icon: Icons.home_outlined, selectedIcon: Icons.home_rounded, label: 'Home'),
     FloatingNavItem(icon: Icons.library_music_outlined, selectedIcon: Icons.library_music_rounded, label: 'Library'),
     FloatingNavItem(icon: Icons.person_outline_rounded, selectedIcon: Icons.person_rounded, label: 'Profile'),
+    FloatingNavItem(icon: Icons.science_outlined, selectedIcon: Icons.science_rounded, label: 'Tester'),
   ];
 
   @override
