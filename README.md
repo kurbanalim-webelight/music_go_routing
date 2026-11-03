@@ -121,8 +121,8 @@ mini player stay visible, and each tab keeps its own back stack when you switch 
 | **Hierarchical** | Everything inside the shell, and Account | The URL *is* the stack. `go()` builds every parent screen in the right tab, so back always leads to the parent. |
 | **Independent** | `/player/:trackId` | Opens on top of whatever is on screen; back returns there. |
 
-Independent routes are listed in `NavigationHandler._independentRoutes` by their route pattern
-(`'/player/:trackId'`).
+`NavigationHandler` tells them apart from the route match: a location whose match has no
+`ShellRouteMatch` is outside the shell, so it is pushed. Nothing needs to be listed by hand.
 
 ### Shared screens across tabs
 
@@ -316,8 +316,8 @@ App-wide instances are created once in `lib/app/di.dart`. Controllers are plain 
    - **in one tab:** a `TypedGoRoute` nested in that tab's route list;
    - **in several tabs:** a `TypedRelativeGoRoute` const, listed under each tab;
    - **over the bottom bar:** set `$parentNavigatorKey = rootNavigatorKey`.
-3. If it should open on top of the current screen from a link or notification, add its path
-   pattern to `NavigationHandler._independentRoutes`.
+3. If it should open on top of the current screen from a link or notification, declare it as a
+   top-level route (outside the shell). `NavigationHandler` then pushes it automatically.
 4. Add the `part` line to `app_router.dart` and run `build_runner`.
 5. Add it to `testRouteGroups` in `test_route.dart` so it shows up in the Tester tab.
 
